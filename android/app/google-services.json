@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "927172079637",
+    "project_id": "trackspense-22aff",
+    "storage_bucket": "trackspense-22aff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927172079637:android:92d5cca64ef0ab5aa31e1c",
+        "android_client_info": {
+          "package_name": "com.example.trackspense"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927172079637-m4dkl5hlfonkfut1h348ia8nf2qq41me.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9MMU_el1EAU8jxPINN9ZEkmFjtQFJLgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927172079637-m4dkl5hlfonkfut1h348ia8nf2qq41me.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
