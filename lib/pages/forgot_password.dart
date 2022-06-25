@@ -42,7 +42,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               padding: const EdgeInsets.only(
                 right: 35,
                 left: 35,
-                // top: MediaQuery.of(context).size.height * 0.5,
               ),
               child: Column(children: [
                 textFieldUi('Email', Icons.person, false, _emailTextController),

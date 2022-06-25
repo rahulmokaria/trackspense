@@ -71,161 +71,90 @@ class ChangeImageWidget extends StatefulWidget {
 class _ChangeImageWidgetState extends State<ChangeImageWidget> {
   @override
   Widget build(BuildContext context) {
-    return SnackBar(
-      duration: const Duration(seconds: 15),
-      elevation: 1,
+    return SimpleDialog(
       backgroundColor: Colors.transparent,
-      behavior: SnackBarBehavior.floating,
-      padding: const EdgeInsets.all(15),
-      content: Stack(
-        children: [
-          Container(
-              height: 600,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: secondaryLight,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Choose preferred icon:",
-                        style: TextStyle(color: white),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: const Icon(
-                          Icons.close_rounded,
-                          color: white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  for (int i = 0; i < 10; i++) ...[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        for (int j = 0; j < 5; j++) ...[
-                          InkWell(
-                            onTap: () async {
-                              await changeImageDb(imageOptions[i * 5 + j]);
-                              setState(() {
-                                userImage = imageOptions[i * 5 + j];
-                              });
-                              // Navigator.pop(context);
-                              Navigator.of(context, rootNavigator: true).pop();
-                            },
-                            child: Image.asset(
-                              imageOptions[i * 5 + j],
-                              height: imageSize,
-                              width: imageSize,
-                            ),
-                          ),
-                        ]
-                      ],
-                    )
-                  ]
-                ],
-              )),
-          Positioned(
-              right: 10,
-              top: 10,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                ),
-                child: Stack(
-                  children: const [
-                    InkWell(
-                      child: SizedBox(),
-                    ),
-                  ],
-                ),
-              )),
-        ],
-      ),
-    );
-  }
-}
-
-changeImageWidget(context) {
-  return SnackBar(
-    duration: const Duration(seconds: 15),
-    elevation: 1,
-    backgroundColor: Colors.transparent,
-    behavior: SnackBarBehavior.floating,
-    padding: const EdgeInsets.all(15),
-    content: Stack(
       children: [
         Container(
-            height: 600,
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: secondaryLight,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Choose preferred icon:",
-                      style: TextStyle(color: white),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: const Icon(
-                        Icons.close_rounded,
-                        color: white,
-                      ),
-                    ),
-                  ],
-                ),
-                for (int i = 0; i < 10; i++) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      for (int j = 0; j < 5; j++) ...[
-                        InkWell(
-                          onTap: () async {
-                            await changeImageDb(imageOptions[i * 5 + j]);
-                            // Navigator.pop(context);
-                            Navigator.of(context, rootNavigator: true).pop();
-                          },
-                          child: Image.asset(
-                            imageOptions[i * 5 + j],
-                            height: imageSize,
-                            width: imageSize,
-                          ),
-                        ),
-                      ]
-                    ],
-                  )
-                ]
-              ],
-            )),
-        Positioned(
-            right: 10,
-            top: 10,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-              ),
-              child: Stack(
-                children: const [
-                  InkWell(
-                    child: SizedBox(),
+          height: 625,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: secondaryLight,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Choose preferred icon:",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(color: white),
                   ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(0),
+                      backgroundColor:
+                          MaterialStateProperty.all(secondaryLight),
+                      // elevation: 0.0,
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons.close_rounded,
+                      color: white,
+                    ),
+                  )
                 ],
               ),
-            )),
+              const Divider(
+                color: white,
+              ),
+              for (int i = 0; i < 10; i++) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    for (int j = 0; j < 5; j++) ...[
+                      InkWell(
+                        onTap: () async {
+                          await changeImageDb(imageOptions[i * 5 + j]);
+                          Navigator.of(context, rootNavigator: true).pop();
+                        },
+                        child: Image.asset(
+                          imageOptions[i * 5 + j],
+                          height: imageSize,
+                          width: imageSize,
+                        ),
+                      ),
+                    ]
+                  ],
+                )
+              ]
+            ],
+          ),
+        ),
+        Positioned(
+          right: 10,
+          top: 10,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+            ),
+            child: Stack(
+              children: const [
+                InkWell(
+                  child: SizedBox(),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
-    ),
-  );
+    );
+  }
 }

@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:trackspense/data/data_functions.dart';
+import 'package:trackspense/data/data_values.dart';
 import 'package:trackspense/theme/my_theme.dart';
 
-transactionBox(
-  DateTime date, {
-  String remark = "Tarbuj watermelon and something",
-  String cat = "Food",
-  num amount = -100,
-  num balance = 10000,
-  bool type = true,
-}) {
+Widget transactionBox(UserTransaction transaction) {
   return Container(
     height: 170,
     padding: const EdgeInsets.all(10),
@@ -22,7 +17,6 @@ transactionBox(
             10.0,
             10.0,
           ),
-          // blurRadius: 10.0,
           spreadRadius: 2.0,
         ), //BoxShadow
         const BoxShadow(
@@ -37,8 +31,7 @@ transactionBox(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
-          child: Text(remark,
-              // overflow: TextOverflow.visible,
+          child: Text(transaction.remark,
               textScaleFactor: 1.75,
               style: const TextStyle(
                 color: white,
@@ -65,10 +58,10 @@ transactionBox(
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: secondary,
+                    color: primary.withAlpha(70),
                   ),
                   child: Text(
-                    cat,
+                    transaction.category,
                     textScaleFactor: 1.2,
                     style: const TextStyle(
                       color: white,
@@ -79,11 +72,11 @@ transactionBox(
                   height: 5,
                 ),
                 Text(
-                  date.day.toString() +
+                  transaction.transactionDate.day.toString() +
                       " " +
-                      textMonth(date.month) +
+                      textMonth(transaction.transactionDate.month) +
                       " " +
-                      date.year.toString(),
+                      transaction.transactionDate.year.toString(),
                   style: const TextStyle(
                     color: white,
                   ),
@@ -92,7 +85,7 @@ transactionBox(
                   height: 5,
                 ),
                 Text(
-                  "Balance: " + balance.toString(),
+                  "Balance: " + transaction.balance.toString(),
                   style: const TextStyle(
                     color: white,
                   ),
@@ -102,12 +95,14 @@ transactionBox(
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: (amount >= 0) ? primary : primaryContrast,
+                color: (transaction.amount >= 0) ? primary : primaryContrast,
               ),
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(25),
               child: Center(
                 child: Text(
-                  (amount >= 0) ? "+" + amount.toString() : amount.toString(),
+                  (transaction.amount >= 0)
+                      ? "+" + transaction.amount.toString()
+                      : transaction.amount.toString(),
                   textScaleFactor: 1.2,
                   style: const TextStyle(
                     color: white,
@@ -119,110 +114,5 @@ transactionBox(
         ),
       ],
     ),
-    //   child: Row(
-    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //     children: [
-    //       Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         // mainAxisAlignment: MainAxisAlignment.start,
-    //         children: [
-    //           Text(
-    //             remark,
-    //             overflow: TextOverflow.visible,
-    //             textScaleFactor: 1.75,
-    //             style: const TextStyle(
-    //               color: white,
-    //             ),
-    //           ),
-
-    //           // const SizedBox(
-    //           //   height: 15,
-    //           // ),
-    //           SizedBox(
-    //             width: 150,
-    //             child: Row(
-    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               // crossAxisAlignment: CrossAxisAlignment.stretch,
-    //               children: [
-    //                 Text(
-    //                   cat,
-    //                   textAlign: TextAlign.left,
-    //                   // textScaleFactor: 1.2,
-    //                   style: const TextStyle(
-    //                     decorationColor: Color.fromARGB(255, 40, 75, 95),
-    //                     color: white,
-    //                   ),
-    //                 ),
-    //                 Text(
-    //                   date.day.toString() +
-    //                       " " +
-    //                       textMonth(date.month) +
-    //                       " " +
-    //                       date.year.toString(),
-    //                   style: const TextStyle(
-    //                     color: white,
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //           const SizedBox(
-    //             height: 5,
-    //           ),
-    //           Text(
-    //             "Balance: " + balance.toString(),
-    //             style: const TextStyle(
-    //               color: white,
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       Container(
-    //         decoration: BoxDecoration(
-    //           shape: BoxShape.circle,
-    //           color: (amount >= 0) ? primary : primaryContrast,
-    //         ),
-    //         padding: const EdgeInsets.all(20),
-    //         child: Center(
-    //           child: Text(
-    //             (amount >= 0) ? "+" + amount.toString() : amount.toString(),
-    //             textScaleFactor: 1.2,
-    //             style: const TextStyle(
-    //               color: white,
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
   );
-}
-
-textMonth(num month) {
-  switch (month) {
-    case 1:
-      return "January";
-    case 2:
-      return "February";
-    case 3:
-      return "March";
-    case 4:
-      return "April";
-    case 5:
-      return "May";
-    case 6:
-      return "June";
-    case 7:
-      return "July";
-    case 8:
-      return "August";
-    case 9:
-      return "September";
-    case 10:
-      return "October";
-    case 11:
-      return "November";
-    case 12:
-      return "December";
-  }
 }

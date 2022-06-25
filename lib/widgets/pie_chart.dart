@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'package:trackspense/data/data_functions.dart';
+import 'package:trackspense/data/data_values.dart';
 import 'package:trackspense/theme/my_theme.dart';
 
 var showIndex = 0;
@@ -27,7 +27,6 @@ class _PieChartState extends State<PieChart> {
               10.0,
               10.0,
             ),
-            // blurRadius: 10.0,
             spreadRadius: 2.0,
           ), //BoxShadow
           const BoxShadow(
@@ -68,13 +67,12 @@ class _PieChartState extends State<PieChart> {
                         dataSource: chartData,
                         pointColorMapper: (ChartData data, _) => data.color,
                         xValueMapper: (ChartData data, _) => data.x,
-                        yValueMapper: (ChartData data, _) => data.y,
+                        yValueMapper: (ChartData data, _) =>
+                            double.parse(catValue[data.x].toString()),
                         // cornerStyle: CornerStyle.bothCurve,
                         innerRadius: '60%',
                         explode: true,
                         explodeIndex: showIndex,
-
-                        // gap: "3%",
 
                         animationDuration: 0.0,
                       )
@@ -83,22 +81,19 @@ class _PieChartState extends State<PieChart> {
                 ),
           if (totalExpense != 0)
             for (var data in chartData) ...[
-              if (data.y != 0)
+              if (double.parse(catValue[data.x].toString()) != 0)
                 Column(
                   children: [
                     Container(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       height: showIndex == data.index ? 50 : 30,
-                      // color:data.highlight?primary:secondaryLight,
                       decoration: BoxDecoration(
                         color:
                             showIndex == data.index ? primary : secondaryLight,
                         borderRadius: BorderRadius.circular(7.5),
                       ),
-                      // duration: const Duration(seconds: 10),
                       child: InkWell(
                         onTap: () {
-                          // changeChartIndex(data.index);
                           setState(() {
                             showIndex = data.index;
                           });

@@ -32,6 +32,5 @@ class MyTheme {
       appBarTheme: const AppBarTheme(
         color: Colors.white,
         iconTheme: IconThemeData(color: secondary),
-        // textTheme: Theme.of(context).textTheme,
       ));
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trackspense/data/data_functions.dart';
+import 'package:trackspense/data/data_values.dart';
 import 'package:trackspense/theme/my_theme.dart';
 
 displayTotal() {
@@ -13,7 +14,6 @@ displayTotal() {
             10.0,
             10.0,
           ),
-          // blurRadius: 10.0,
           spreadRadius: 2.0,
         ), //BoxShadow
         const BoxShadow(
@@ -43,10 +43,9 @@ displayTotal() {
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                // color: primaryContrast.withOpacity(0.7),
                 boxShadow: [
                   BoxShadow(
-                    color: (balance >= 0) ? primary : primaryContrast,
+                    color: (netBalance! >= 0) ? primary : primaryContrast,
                     offset: const Offset(
                       0.0,
                       0.0,
@@ -55,7 +54,7 @@ displayTotal() {
                     spreadRadius: 5.0,
                   ), //BoxShadow
                   BoxShadow(
-                    color: (balance >= 0) ? primary : primaryContrast,
+                    color: (netBalance! >= 0) ? primary : primaryContrast,
                     offset: const Offset(0.0, 0.0),
                     blurRadius: 0.0,
                     spreadRadius: 0.0,
@@ -65,8 +64,8 @@ displayTotal() {
               padding: const EdgeInsets.all(30),
               child: Center(
                 child: Text(
-                  ((balance > 0) ? (balance == 0 ? "" : "+") : "") +
-                      balance.toString(),
+                  ((netBalance! > 0) ? (netBalance == 0 ? "" : "+") : "") +
+                      netBalance.toString(),
                   textScaleFactor: 1.5,
                   style: const TextStyle(
                     color: white,
@@ -124,105 +123,6 @@ displayTotal() {
             ),
           ],
         )
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //   children: [
-        //     Column(
-        //       children: [
-        //         const Text(
-        //           "Total Income:",
-        //           textScaleFactor: 1.35,
-        //           style: TextStyle(
-        //             color: white,
-        //           ),
-        //         ),
-        //         const SizedBox(
-        //           height: 30,
-        //         ),
-        //         Container(
-        //           decoration: const BoxDecoration(
-        //             shape: BoxShape.circle,
-        //             // color: primaryContrast.withOpacity(0.7),
-        //             boxShadow: [
-        //               BoxShadow(
-        //                 color: primary,
-        //                 offset: Offset(
-        //                   0.0,
-        //                   0.0,
-        //                 ),
-        //                 blurRadius: 10.0,
-        //                 spreadRadius: 5.0,
-        //               ), //BoxShadow
-        //               BoxShadow(
-        //                 color: primary,
-        //                 offset: Offset(0.0, 0.0),
-        //                 blurRadius: 0.0,
-        //                 spreadRadius: 0.0,
-        //               ), //BoxShadow
-        //             ],
-        //           ),
-        //           padding: const EdgeInsets.all(30),
-        //           child: Center(
-        //             child: Text(
-        //               (totalIncome != 0 ? "+" : "") + totalIncome.toString(),
-        //               textScaleFactor: 1.5,
-        //               style: const TextStyle(
-        //                 color: white,
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //     Column(
-        //       children: [
-        //         const Text(
-        //           "Total Expense:",
-        //           textScaleFactor: 1.35,
-        //           style: TextStyle(
-        //             color: white,
-        //           ),
-        //         ),
-        //         const SizedBox(
-        //           height: 30,
-        //         ),
-        //         Container(
-        //           decoration: const BoxDecoration(
-        //             shape: BoxShape.circle,
-        //             // color: primary.withOpacity(0.7),
-        //             boxShadow: [
-        //               BoxShadow(
-        //                 color: primaryContrast,
-        //                 offset: Offset(
-        //                   0.0,
-        //                   0.0,
-        //                 ),
-        //                 blurRadius: 10.0,
-        //                 spreadRadius: 5.0,
-        //               ), //BoxShadow
-        //               BoxShadow(
-        //                 color: primaryContrast,
-        //                 offset: Offset(0.0, 0.0),
-        //                 blurRadius: 0.0,
-        //                 spreadRadius: 0.0,
-        //               ), //BoxShadow
-        //             ],
-        //           ),
-        //           padding: const EdgeInsets.all(30),
-        //           child: Center(
-        //             child: Text(
-        //               (totalExpense != 0 ? "-" : "") + totalExpense.toString(),
-        //               textScaleFactor: 1.5,
-        //               style: const TextStyle(
-        //                 color: white,
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ],
-        // ),
       ],
     ),
   );

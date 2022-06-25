@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:trackspense/data/data_functions.dart';
+import 'package:trackspense/data/data_values.dart';
 import 'package:trackspense/theme/my_theme.dart';
+import 'package:trackspense/widgets/show_error.dart';
 
 class CreateNewIncome extends StatefulWidget {
   const CreateNewIncome({Key? key}) : super(key: key);
@@ -12,11 +15,12 @@ class CreateNewIncome extends StatefulWidget {
 }
 
 class _CreateNewIncomeState extends State<CreateNewIncome> {
-  num amount = 0;
-  String cat = '';
-  String remark = "";
+  final TextEditingController _amountTextController = TextEditingController();
+  final TextEditingController _remarkTextController = TextEditingController();
+  double? amount = 0;
+  String? cat = '';
   DateTime date = DateTime.now();
-  double balance = 0.0;
+  double? balance = netBalance;
 
   var dropdownValue = 'Salary';
   var categories = [
@@ -50,7 +54,6 @@ class _CreateNewIncomeState extends State<CreateNewIncome> {
     return Scaffold(
       backgroundColor: secondary,
       appBar: AppBar(
-        // elevation: 0.0,
         title: const Text('New Income'),
         backgroundColor: primary,
       ),
@@ -58,11 +61,7 @@ class _CreateNewIncomeState extends State<CreateNewIncome> {
         padding: const EdgeInsets.all(30.0),
         children: [
           TextFormField(
-            onChanged: (value) {
-              setState(() {
-                amount = (value) as double;
-              });
-            },
+            controller: _amountTextController,
             cursorColor: white,
             style: const TextStyle(color: white),
             decoration: InputDecoration(
@@ -70,36 +69,22 @@ class _CreateNewIncomeState extends State<CreateNewIncome> {
               hintStyle: const TextStyle(color: white),
               labelText: "Amount:",
               labelStyle: const TextStyle(color: white),
-
               filled: true,
-              // floatingLabelBehavior: FloatingLabelBehavior.never,
               fillColor: secondaryLight,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
             ),
-            // hint
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Amount cannot be empty";
+              } else {
+                return null;
+              }
+            },
+            keyboardType: TextInputType.number,
           ),
-
-          // TextFormField(
-          //   onChanged: (value) {
-          //     setState(() {
-          //       amount = value as num;
-          //     });
-          //   },
-          //   decoration: const InputDecoration(
-          //     hintText: "Enter Amount",
-          //     labelText: "Username",
-          //   ),
-          //   validator: (value) {
-          //     if (value!.isEmpty) {
-          //       return "Username cannot be empty";
-          //     }
-          //     return null;
-          //   },
-          // ),
-
           const SizedBox(
             height: 30,
           ),
@@ -153,6 +138,7 @@ class _CreateNewIncomeState extends State<CreateNewIncome> {
             height: 30,
           ),
           TextFormField(
+            controller: _remarkTextController,
             cursorColor: white,
             style: const TextStyle(color: white),
             decoration: InputDecoration(
@@ -160,15 +146,20 @@ class _CreateNewIncomeState extends State<CreateNewIncome> {
               hintStyle: const TextStyle(color: white),
               labelText: "Remark:",
               labelStyle: const TextStyle(color: white),
-
               filled: true,
-              // floatingLabelBehavior: FloatingLabelBehavior.never,
               fillColor: secondaryLight,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
             ),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Remark cannot be empty";
+              } else {
+                return null;
+              }
+            },
             // hint
           ),
           const SizedBox(
@@ -182,92 +173,78 @@ class _CreateNewIncomeState extends State<CreateNewIncome> {
             padding: const EdgeInsets.fromLTRB(15, 20, 0, 20),
             child: InkWell(
               onTap: () => _selectDate(context),
-              child: const Text(
-                "Select Date:",
-                style: TextStyle(
-                  color: white,
-                ),
-                textScaleFactor: 1.2,
+              child: Row(
+                children: [
+                  const Text(
+                    "Select Date:",
+                    style: TextStyle(
+                      color: white,
+                    ),
+                    textScaleFactor: 1.2,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    date.day.toString() +
+                        " " +
+                        textMonth(date.month) +
+                        " " +
+                        date.year.toString(),
+                    style: const TextStyle(
+                      color: white,
+                    ),
+                  )
+                ],
               ),
             ),
-            // child: DateTimePicker(
-            //   type: DateTimePickerType.date,
-            //   initialDate: DateTime.now(),
-            //   firstDate: DateTime(2000),
-            //   lastDate: DateTime(2100),
-            //   icon: const Icon(
-            //     Icons.event,
-            //     color: white,
-            //   ),
-            //   dateLabelText: 'Date:',
-            //   dateHintText: 'Select Date',
-            //   fieldHintText: 'Rahul',
-            //   // calendarTitle: ,
-            //   timeLabelText: "Hour",
-            //   cursorColor: white,
-            //   style: const TextStyle(
-            //     color: white,
-            //     // backgroundColor: secondary,
-            //   ),
-            //   onChanged: (val) => print(val),
-            //   validator: (val) {
-            //     print(val);
-            //     return null;
-            //   },
-            //   onSaved: (val) => print(val),
-            // ),
           ),
           const SizedBox(
-            height: 30,
+            height: 15,
           ),
-
+          const Divider(
+            color: white,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
           Container(
-            padding: const EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: secondaryLight.withOpacity(0.5),
-                  offset: const Offset(
-                    10.0,
-                    10.0,
-                  ),
-                  // blurRadius: 10.0,
-                  spreadRadius: 2.0,
-                ), //BoxShadow
-                const BoxShadow(
-                  color: secondary,
-                  offset: Offset(0.0, 0.0),
-                  blurRadius: 0.0,
-                  spreadRadius: 0.0,
-                ), //BoxShadow
-              ],
-              borderRadius: BorderRadius.circular(10),
-              color: secondaryLight,
-            ),
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, 'homePage');
-                FirebaseFirestore.instance
-                    .collection("data")
-                    .doc(userEmail)
-                    .collection('transactions')
-                    .add({
-                  "amount": amount,
-                  "remark": remark,
-                  "category": cat,
-                  "date": date,
-                  "balance": balance - amount,
+            height: 50,
+            margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+            child: ElevatedButton(
+              child: const Text(
+                "Add",
+                textScaleFactor: 1.4,
+                style: TextStyle(
+                  color: white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                newIncomeDb(
+                  double.parse(_amountTextController.text),
+                  _remarkTextController.text,
+                  cat!,
+                  date,
+                  balance! + double.parse(_amountTextController.text),
+                )
+                    .then(Navigator.pushNamed(context, 'homePage'))
+                    .onError((error, stackTrace) {
+                  ScaffoldMessenger.of(context).showSnackBar(showError(
+                      "Oh Snap!",
+                      error.toString(),
+                      primaryContrast,
+                      CupertinoIcons.exclamationmark_circle));
                 });
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  Text(
-                    "Add",
-                    textScaleFactor: 1.4,
-                    style: TextStyle(color: white),
-                  ),
-                ],
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith((states) {
+                  return secondaryLight;
+                }),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
               ),
             ),
           ),

@@ -39,35 +39,10 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: const EdgeInsets.only(
                 right: 35,
                 left: 35,
-                // top: MediaQuery.of(context).size.height * 0.27,
               ),
               child: Column(children: [
                 textFieldUi('Name', Icons.person_outline, false,
                     _userNameTextController),
-                // TextFormField(
-                //   controller: _userNameTextController,
-                //   obscureText: false,
-                //   cursorColor: primary,
-                //   style: const TextStyle(color: primary),
-                //   decoration: InputDecoration(
-                //     prefixIcon: Icon(
-                //       Icons.person_outline,
-                //       color: primary,
-                //     ),
-                //     labelText: 'Name',
-                //     labelStyle: const TextStyle(color: primary),
-                //     filled: true,
-                //     floatingLabelBehavior: FloatingLabelBehavior.never,
-                //     fillColor: secondaryLight,
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(10),
-                //       borderSide:
-                //           const BorderSide(width: 0, style: BorderStyle.none),
-                //     ),
-                //   ),
-                //   keyboardType: TextInputType.emailAddress,
-                //   // hint
-                // ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -93,7 +68,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       "Register",
                       style: TextStyle(
                         color: secondary,
-                        // fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
@@ -132,7 +106,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: const Text(
                           'Already have an account...',
                           style: TextStyle(
-                            // decoration: TextDecoration.underline,
                             fontSize: 18,
                             color: primary,
                           ),

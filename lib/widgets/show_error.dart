@@ -53,25 +53,7 @@ showError(String message, String e, Color msgColor, IconData msgIcon) {
                 bottomLeft: Radius.circular(20),
               ),
               child: Stack(
-                children: [
-                  // Icon(
-                  //   CupertinoIcons.exclamationmark,
-                  //   size: 80,
-                  // )
-                  SvgPicture.asset(
-                    "/assets/images/profilePictures/owl.svg",
-                    height: 48,
-                    width: 40,
-                    color: msgColor,
-                  ),
-                  // Image.asset(
-                  //   "assets/images/exclamation.png",
-                  //   height: 80,
-                  //   width: 40,
-                  //   // color: const Color(0xFF801336),
-                  // )
-                  Icon(msgIcon, size: 40)
-                ],
+                children: [Icon(msgIcon, size: 40)],
               ),
             )),
         Positioned(
@@ -79,17 +61,7 @@ showError(String message, String e, Color msgColor, IconData msgIcon) {
           left: 0,
           child: Stack(
             alignment: Alignment.center,
-            children: [
-              SvgPicture.asset(
-                "assets/images/fail.svg",
-                height: 40,
-              ),
-              Positioned(
-                  child: SvgPicture.asset(
-                "assets/images/close.svg",
-                height: 16,
-              ))
-            ],
+            children: [],
           ),
         ),
       ],

@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:trackspense/data/data_functions.dart';
+import 'package:trackspense/data/data_values.dart';
 import 'package:trackspense/theme/my_theme.dart';
 import 'package:trackspense/widgets/show_error.dart';
+import 'package:trackspense/data/data_functions.dart';
 
 class CreateNewExpense extends StatefulWidget {
   const CreateNewExpense({Key? key}) : super(key: key);
@@ -15,23 +17,30 @@ class CreateNewExpense extends StatefulWidget {
 
 class _CreateNewExpenseState extends State<CreateNewExpense> {
   final TextEditingController _amountTextController = TextEditingController();
-  double? amount;
-  String? cat;
-  String? remark;
-  DateTime? date;
-  double? balance;
+  String? cat = "Food";
+  String? remark = "";
+  DateTime date = DateTime.now();
+  double? balance = netBalance;
+  final TextEditingController _remarkTextController = TextEditingController();
 
   var dropdownValue = 'Food';
   var categories = [
-    for (var data in chartData) ...[
-      data.x,
-    ]
+    "Food",
+    'Shopping',
+    'Medicines',
+    'Transport',
+    'Utilities',
+    'Education',
+    'Entertainment',
+    'Clothing',
+    'Rent',
+    'Others',
   ];
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: date!,
+        initialDate: date,
         firstDate: DateTime(2000),
         lastDate: DateTime(2100));
     if (picked != null && picked != date) {
@@ -49,7 +58,6 @@ class _CreateNewExpenseState extends State<CreateNewExpense> {
     return Scaffold(
       backgroundColor: secondary,
       appBar: AppBar(
-        // elevation: 0.0,
         title: const Text(
           'New Expense',
         ),
@@ -59,11 +67,6 @@ class _CreateNewExpenseState extends State<CreateNewExpense> {
         padding: const EdgeInsets.all(30.0),
         children: [
           TextFormField(
-            onChanged: (value) {
-              setState(() {
-                amount = (value) as double;
-              });
-            },
             controller: _amountTextController,
             cursorColor: white,
             style: const TextStyle(color: white),
@@ -72,9 +75,7 @@ class _CreateNewExpenseState extends State<CreateNewExpense> {
               hintStyle: const TextStyle(color: white),
               labelText: "Amount:",
               labelStyle: const TextStyle(color: white),
-
               filled: true,
-              // floatingLabelBehavior: FloatingLabelBehavior.never,
               fillColor: secondaryLight,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -88,27 +89,9 @@ class _CreateNewExpenseState extends State<CreateNewExpense> {
                 return null;
               }
             },
+            keyboardType: TextInputType.number,
             // hint
           ),
-
-          // TextFormField(
-          //   onChanged: (value) {
-          //     setState(() {
-          //       amount = value as num;
-          //     });
-          //   },
-          //   decoration: const InputDecoration(
-          //     hintText: "Enter Amount",
-          //     labelText: "Username",
-          //   ),
-          //   validator: (value) {
-          //     if (value!.isEmpty) {
-          //       return "Username cannot be empty";
-          //     }
-          //     return null;
-          //   },
-          // ),
-
           const SizedBox(
             height: 30,
           ),
@@ -158,54 +141,40 @@ class _CreateNewExpenseState extends State<CreateNewExpense> {
               ],
             ),
           ),
-          // DropdownButton<String>(
-          //   value: dropdownValue,
-          //   icon: const Icon(Icons.arrow_downward),
-          //   elevation: 16,
-          //   style: const TextStyle(color: Colors.deepPurple),
-          //   underline: Container(
-          //     height: 2,
-          //     color: Colors.deepPurpleAccent,
-          //   ),
-          //   onChanged: (String? newValue) {
-          //     setState(() {
-          //       dropdownValue = newValue!;
-          //     });
-          //   },
-          //   items: <String>['One', 'Two', 'Free', 'Four']
-          //       .map<DropdownMenuItem<String>>((String value) {
-          //     return DropdownMenuItem<String>(
-          //       value: value,
-          //       child: Text(value),
-          //     );
-          //   }).toList(),
-          // ),
           const SizedBox(
             height: 30,
           ),
           TextFormField(
+            controller: _remarkTextController,
             cursorColor: white,
+            onChanged: (value) {
+              remark = value;
+            },
             style: const TextStyle(color: white),
             decoration: InputDecoration(
               hintText: "Add Remark",
               hintStyle: const TextStyle(color: white),
               labelText: "Remark:",
               labelStyle: const TextStyle(color: white),
-
               filled: true,
-              // floatingLabelBehavior: FloatingLabelBehavior.never,
               fillColor: secondaryLight,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
             ),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Remark cannot be empty";
+              } else {
+                return null;
+              }
+            },
             // hint
           ),
           const SizedBox(
             height: 30,
           ),
-
           Container(
             decoration: BoxDecoration(
               color: secondaryLight,
@@ -214,57 +183,61 @@ class _CreateNewExpenseState extends State<CreateNewExpense> {
             padding: const EdgeInsets.fromLTRB(15, 20, 0, 20),
             child: InkWell(
               onTap: () => _selectDate(context),
-              child: const Text(
-                "Select Date:",
-                style: TextStyle(
-                  color: white,
-                ),
-                textScaleFactor: 1.2,
+              child: Row(
+                children: [
+                  const Text(
+                    "Select Date:",
+                    style: TextStyle(
+                      color: white,
+                    ),
+                    textScaleFactor: 1.2,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    date.day.toString() +
+                        " " +
+                        textMonth(date.month) +
+                        " " +
+                        date.year.toString(),
+                    style: const TextStyle(
+                      color: white,
+                    ),
+                  )
+                ],
               ),
             ),
           ),
           const SizedBox(
-            height: 30,
+            height: 15,
           ),
-
+          const Divider(
+            color: white,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
           Container(
-            padding: const EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: secondaryLight.withOpacity(0.5),
-                  offset: const Offset(
-                    10.0,
-                    10.0,
-                  ),
-                  // blurRadius: 10.0,
-                  spreadRadius: 2.0,
-                ), //BoxShadow
-                const BoxShadow(
-                  color: secondary,
-                  offset: Offset(0.0, 0.0),
-                  blurRadius: 0.0,
-                  spreadRadius: 0.0,
-                ), //BoxShadow
-              ],
-              borderRadius: BorderRadius.circular(10),
-              color: secondaryLight,
-            ),
-            child: InkWell(
-              onTap: () {
-                print("amount: $amount");
-                print("amount: ${double.parse(_amountTextController.text)}");
-                print("remark: $remark");
-                print("category: $cat");
-                print("date: $date");
-                print("balance: ${balance! - amount!}");
-
-                newTransactionDb(
+            height: 50,
+            margin: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+            child: ElevatedButton(
+              child: const Text(
+                "Add",
+                textScaleFactor: 1.4,
+                style: TextStyle(
+                  color: white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                newExpenseDb(
                   double.parse(_amountTextController.text),
                   remark!,
                   cat!,
-                  date!,
-                  balance! - amount!,
+                  date,
+                  balance! - double.parse(_amountTextController.text),
                 )
                     .then(Navigator.pushNamed(context, 'homePage'))
                     .onError((error, stackTrace) {
@@ -275,15 +248,13 @@ class _CreateNewExpenseState extends State<CreateNewExpense> {
                       CupertinoIcons.exclamationmark_circle));
                 });
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  Text(
-                    "Add",
-                    textScaleFactor: 1.4,
-                    style: TextStyle(color: white),
-                  ),
-                ],
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith((states) {
+                  return secondaryLight;
+                }),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
               ),
             ),
           ),

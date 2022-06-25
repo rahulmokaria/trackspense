@@ -38,33 +38,14 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.only(
                 right: 35,
                 left: 35,
-                // top: MediaQuery.of(context).size.height * 0.5,
               ),
               child: Column(children: [
                 textFieldUi('Email', Icons.person, false, _emailTextController),
-                // TextField(
-                //   decoration: InputDecoration(
-                //       fillColor: Colors.grey.shade100,
-                //       filled: true,
-                //       hintText: 'Email',
-                //       border: OutlineInputBorder(
-                //           borderRadius: BorderRadius.circular(10))),
-                // ),
                 const SizedBox(
                   height: 30,
                 ),
                 textFieldUi('Password', Icons.lock_outline, true,
                     _passwordTextController),
-                // TextField(
-                //   obscureText: true,
-                //   decoration: InputDecoration(
-                //       fillColor: Colors.grey.shade100,
-                //       filled: true,
-                //       hintText: 'Password',
-                //       border: OutlineInputBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //       )),
-                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -78,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text(
                           'Forgot Password',
                           style: TextStyle(
-                            // decoration: TextDecoration.underline,
                             fontSize: 18,
                             color: primary,
                           ),
@@ -104,7 +84,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     onPressed: () {
-                      loginUserDb(context, _emailTextController, _passwordTextController);
+                      loginUserDb(context, _emailTextController,
+                          _passwordTextController);
                     },
                     style: ButtonStyle(
                       backgroundColor:
@@ -120,7 +101,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   height: 20,
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:trackspense/data/data_functions.dart';
+import 'package:trackspense/data/data_values.dart';
 import 'package:trackspense/theme/my_theme.dart';
 import 'package:trackspense/widgets/transaction_box.dart';
 
@@ -12,7 +13,16 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
-  
+  Widget buildTransaction(UserTransaction transaction) {
+    return Column(
+      children: [
+        transactionBox(transaction),
+        const SizedBox(
+          height: 30,
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +46,7 @@ class _TransactionPageState extends State<TransactionPage> {
               padding: const EdgeInsets.all(30.0),
               children: [
                 for (var data in transactions) ...[
-                  transactionBox(
-                    data.transactionDate,
-                    amount: data.amount,
-                    remark: data.remark,
-                    cat: data.category,
-                    balance: data.balance,
-                    type: data.amount >= 0,
-                  ),
+                  transactionBox(data),
                   const SizedBox(
                     height: 30,
                   ),
