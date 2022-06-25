@@ -1,23 +1,24 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trackspense/theme/colors.dart';
-import 'package:trackspense/widgets/textFieldUi.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+import 'package:trackspense/data/data_functions.dart';
+import 'package:trackspense/theme/my_theme.dart';
+import 'package:trackspense/widgets/text_field_ui.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: secondary,
-      body: Stack(
+      body: ListView(
         children: [
           Container(
             padding: const EdgeInsets.only(left: 35, top: 80),
@@ -29,12 +30,16 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
+          const SizedBox(
+            height: 75,
+          ),
           SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(
-                  right: 35,
-                  left: 35,
-                  top: MediaQuery.of(context).size.height * 0.5),
+              padding: const EdgeInsets.only(
+                right: 35,
+                left: 35,
+                // top: MediaQuery.of(context).size.height * 0.5,
+              ),
               child: Column(children: [
                 textFieldUi('Email', Icons.person, false, _emailTextController),
                 // TextField(
@@ -67,7 +72,9 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'forgotPasswordPage');
+                        },
                         child: const Text(
                           'Forgot Password',
                           style: TextStyle(
@@ -97,15 +104,7 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     onPressed: () {
-                      FirebaseAuth.instance
-                          .signInWithEmailAndPassword(
-                              email: _emailTextController.text,
-                              password: _passwordTextController.text)
-                          .then((value) {
-                        Navigator.pushNamed(context, 'homePage');
-                      }).onError((error, stackTrace) {
-                        print("Error ${error.toString()}");
-                      });
+                      loginUserDb(context, _emailTextController, _passwordTextController);
                     },
                     style: ButtonStyle(
                       backgroundColor:
@@ -130,7 +129,7 @@ class _LoginState extends State<Login> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, 'register');
+                          Navigator.pushNamed(context, 'registerPage');
                         },
                         child: const Text(
                           "Don't have an account? Sign Up",

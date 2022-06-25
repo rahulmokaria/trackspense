@@ -1,16 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trackspense/theme/colors.dart';
-import 'package:trackspense/widgets/textFieldUi.dart';
 
-class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+import 'package:trackspense/data/data_functions.dart';
+import 'package:trackspense/theme/my_theme.dart';
+import 'package:trackspense/widgets/text_field_ui.dart';
+
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<Register> createState() => _RegisterState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _userNameTextController = TextEditingController();
@@ -22,7 +23,7 @@ class _RegisterState extends State<Register> {
         elevation: 0,
       ),
       backgroundColor: secondary,
-      body: Stack(
+      body: ListView(
         children: [
           Container(
               padding: const EdgeInsets.only(left: 35, top: 45),
@@ -30,15 +31,43 @@ class _RegisterState extends State<Register> {
                 "Create\nAccount",
                 style: TextStyle(color: primary, fontSize: 60),
               )),
+          const SizedBox(
+            height: 75,
+          ),
           SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(
-                  right: 35,
-                  left: 35,
-                  top: MediaQuery.of(context).size.height * 0.27),
+              padding: const EdgeInsets.only(
+                right: 35,
+                left: 35,
+                // top: MediaQuery.of(context).size.height * 0.27,
+              ),
               child: Column(children: [
                 textFieldUi('Name', Icons.person_outline, false,
                     _userNameTextController),
+                // TextFormField(
+                //   controller: _userNameTextController,
+                //   obscureText: false,
+                //   cursorColor: primary,
+                //   style: const TextStyle(color: primary),
+                //   decoration: InputDecoration(
+                //     prefixIcon: Icon(
+                //       Icons.person_outline,
+                //       color: primary,
+                //     ),
+                //     labelText: 'Name',
+                //     labelStyle: const TextStyle(color: primary),
+                //     filled: true,
+                //     floatingLabelBehavior: FloatingLabelBehavior.never,
+                //     fillColor: secondaryLight,
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(10),
+                //       borderSide:
+                //           const BorderSide(width: 0, style: BorderStyle.none),
+                //     ),
+                //   ),
+                //   keyboardType: TextInputType.emailAddress,
+                //   // hint
+                // ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -69,15 +98,12 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     onPressed: () {
-                      FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: _emailTextController.text,
-                              password: _passwordTextController.text)
-                          .then((value) {
-                        Navigator.pushNamed(context, 'homePage');
-                      }).onError((error, stackTrace) {
-                        print("Error ${error.toString()}");
-                      });
+                      registerNewUserDb(
+                        context,
+                        _emailTextController,
+                        _passwordTextController,
+                        _userNameTextController,
+                      );
                     },
                     style: ButtonStyle(
                       backgroundColor:
@@ -101,7 +127,7 @@ class _RegisterState extends State<Register> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, 'login');
+                          Navigator.pushNamed(context, 'loginPage');
                         },
                         child: const Text(
                           'Already have an account...',
@@ -115,7 +141,10 @@ class _RegisterState extends State<Register> {
                 ),
               ]),
             ),
-          )
+          ),
+          const SizedBox(
+            height: 75,
+          ),
         ],
       ),
     );
